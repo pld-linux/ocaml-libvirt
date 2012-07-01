@@ -55,7 +55,7 @@ biblioteki.
 %build
 %configure
 
-%{__make} all opt \
+%{__make} -j1 all opt \
 	CC="%{__cc}"
 
 %install
