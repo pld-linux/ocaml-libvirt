@@ -72,7 +72,7 @@ biblioteki.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/{site-lib,stublibs}
 
-%{__make} install-opt \
+%{__make} install%{?with_ocaml_opt:-opt} \
 	OCAMLFIND_INSTFLAGS="-destdir $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib"
 
 %{__mv} $RPM_BUILD_ROOT%{_libdir}/ocaml/{site-lib/libvirt,stublibs}/dllmllibvirt.so
