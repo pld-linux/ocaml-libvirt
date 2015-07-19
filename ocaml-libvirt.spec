@@ -1,8 +1,17 @@
+#
+# Conditional build:
+%bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
+
+# not yet available on x32 (ocaml 4.02.1), update when upstream will support it
+%ifnarch %{ix86} %{x8664} arm aarch64 ppc sparc sparcv9
+%undefine	with_ocaml_opt
+%endif
+
 Summary:	libvirt binding for OCaml
 Summary(pl.UTF-8):	Wiązania libvirt dla OCamla
 Name:		ocaml-libvirt
 Version:	0.6.1.4
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		Libraries
 Source0:	ftp://libvirt.org/libvirt/ocaml/%{name}-%{version}.tar.gz
@@ -56,7 +65,7 @@ biblioteki.
 %configure
 
 # parallel build triggers makefile races
-%{__make} -j1 all opt \
+%{__make} -j1 all %{?with_ocaml_opt:opt} \
 	CC="%{__cc}"
 
 %install
@@ -66,7 +75,10 @@ install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/{site-lib,stublibs}
 %{__make} install-opt \
 	OCAMLFIND_INSTFLAGS="-destdir $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib"
 
-mv -f $RPM_BUILD_ROOT%{_libdir}/ocaml/{site-lib/libvirt,stublibs}/dllmllibvirt.so
+%{__mv} $RPM_BUILD_ROOT%{_libdir}/ocaml/{site-lib/libvirt,stublibs}/dllmllibvirt.so
+
+# packaged as %doc
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/libvirt/*.mli
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 cp -p examples/*.ml $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
@@ -84,8 +96,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc libvirt/libvirt*.mli
 %dir %{_libdir}/ocaml/site-lib/libvirt
 %{_libdir}/ocaml/site-lib/libvirt/META
-%{_libdir}/ocaml/site-lib/libvirt/libvirt*.cm[ix]
+%{_libdir}/ocaml/site-lib/libvirt/libvirt*.cmi
 %{_libdir}/ocaml/site-lib/libvirt/libmllibvirt.a
+%{_libdir}/ocaml/site-lib/libvirt/mllibvirt.cma
+%if %{with ocaml_opt}
+%{_libdir}/ocaml/site-lib/libvirt/libvirt*.cmx
 %{_libdir}/ocaml/site-lib/libvirt/mllibvirt.a
-%{_libdir}/ocaml/site-lib/libvirt/mllibvirt.cm*
+%{_libdir}/ocaml/site-lib/libvirt/mllibvirt.cmxa
+%endif
 %{_examplesdir}/%{name}-%{version}
