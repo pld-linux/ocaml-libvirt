@@ -11,11 +11,12 @@ Summary:	libvirt binding for OCaml
 Summary(pl.UTF-8):	Wiązania libvirt dla OCamla
 Name:		ocaml-libvirt
 Version:	0.6.1.4
-Release:	3
+Release:	4
 License:	LGPL v2+
 Group:		Libraries
 Source0:	ftp://libvirt.org/libvirt/ocaml/%{name}-%{version}.tar.gz
 # Source0-md5:	92723c155c009880475f3c9a093d1fe6
+Patch0:		%{name}-virDomainCreateXML.patch
 URL:		http://libvirt.org/ocaml/
 BuildRequires:	libvirt-devel >= 0.2.1
 BuildRequires:	ocaml >= 3.04-7
@@ -60,6 +61,7 @@ biblioteki.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure
