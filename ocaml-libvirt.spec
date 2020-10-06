@@ -3,33 +3,26 @@
 %bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
 
 # not yet available on x32 (ocaml 4.02.1), update when upstream will support it
-%ifnarch %{ix86} %{x8664} arm aarch64 ppc sparc sparcv9
+%ifnarch %{ix86} %{x8664} %{arm} aarch64 ppc sparc sparcv9
 %undefine	with_ocaml_opt
 %endif
 
 Summary:	libvirt binding for OCaml
 Summary(pl.UTF-8):	Wiązania libvirt dla OCamla
 Name:		ocaml-libvirt
-Version:	0.6.1.4
-Release:	7
+Version:	0.6.1.5
+Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	ftp://libvirt.org/libvirt/ocaml/%{name}-%{version}.tar.gz
-# Source0-md5:	92723c155c009880475f3c9a093d1fe6
-Patch0:		%{name}-virDomainCreateXML.patch
-Patch1:		0001-Suppress-errors-to-stderr-and-use-thread-local-virEr.patch
-Patch2:		0001-Use-C99-standard-int64_t-instead-of-OCaml-defined-an.patch
-Patch3:		0001-Use-g-warn-error.patch
-Patch4:		0001-Remove-unused-not_supported-function.patch
-Patch5:		0002-Don-t-bother-checking-return-from-virInitialize.patch
-Patch6:		0002-Update-dependencies.patch
-Patch7:		0003-Add-a-binding-for-virConnectGetAllDomainStats-RHBZ-1.patch
-Patch8:		0004-examples-Print-more-stats-in-the-get_all_domain_stat.patch
-Patch9:		0005-Change-binding-of-virConnectGetAllDomainStats-to-ret.patch
-URL:		http://libvirt.org/ocaml/
-BuildRequires:	libvirt-devel >= 0.2.1
+Source0:	https://libvirt.org/sources/ocaml/%{name}-%{version}.tar.gz
+# Source0-md5:	4b5ec3b6eb93ca18e02433f04806f0ed
+URL:		https://libvirt.org/ocaml/
+BuildRequires:	libvirt-devel >= 1.2.8
 BuildRequires:	ocaml >= 3.04-7
 BuildRequires:	ocaml-findlib
+BuildRequires:	perl-base
+BuildRequires:	pkgconfig
+Requires:	libvirt >= 1.2.8
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -70,16 +63,6 @@ biblioteki.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
 
 %build
 %configure
