@@ -11,11 +11,15 @@ Summary:	libvirt binding for OCaml
 Summary(pl.UTF-8):	Wiązania libvirt dla OCamla
 Name:		ocaml-libvirt
 Version:	0.6.1.5
-Release:	1
+Release:	2
 License:	LGPL v2+
 Group:		Libraries
 Source0:	https://libvirt.org/sources/ocaml/%{name}-%{version}.tar.gz
 # Source0-md5:	4b5ec3b6eb93ca18e02433f04806f0ed
+Patch0:		0001-block_peek-memory_peek-Use-bytes-for-return-buffer.patch
+Patch1:		0001-Make-const-the-return-value-of-caml_named_value.patch
+Patch2:		0002-String_val-returns-const-char-in-OCaml-4.10.patch
+Patch3:		0003-Don-t-try-to-memcpy-into-a-String_val.patch
 URL:		https://libvirt.org/ocaml/
 BuildRequires:	libvirt-devel >= 1.2.8
 BuildRequires:	ocaml >= 3.04-7
@@ -63,6 +67,10 @@ biblioteki.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 %configure
