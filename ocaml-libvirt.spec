@@ -11,7 +11,7 @@ Summary:	libvirt binding for OCaml
 Summary(pl.UTF-8):	Wiązania libvirt dla OCamla
 Name:		ocaml-libvirt
 Version:	0.6.1.5
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		Libraries
 Source0:	https://libvirt.org/sources/ocaml/%{name}-%{version}.tar.gz
@@ -81,15 +81,13 @@ biblioteki.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/{site-lib,stublibs}
+install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs
 
 %{__make} install%{?with_ocaml_opt:-opt}%{!?with_ocaml_opt:-byte} \
-	OCAMLFIND_INSTFLAGS="-destdir $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib"
-
-%{__mv} $RPM_BUILD_ROOT%{_libdir}/ocaml/{site-lib/libvirt,stublibs}/dllmllibvirt.so
+	OCAMLFIND_INSTFLAGS="-destdir $RPM_BUILD_ROOT%{_libdir}/ocaml"
 
 # packaged as %doc
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/libvirt/*.mli
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/libvirt/*.mli
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 cp -p examples/*.ml $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
@@ -105,14 +103,14 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc libvirt/libvirt*.mli
-%dir %{_libdir}/ocaml/site-lib/libvirt
-%{_libdir}/ocaml/site-lib/libvirt/META
-%{_libdir}/ocaml/site-lib/libvirt/libvirt*.cmi
-%{_libdir}/ocaml/site-lib/libvirt/libmllibvirt.a
-%{_libdir}/ocaml/site-lib/libvirt/mllibvirt.cma
+%dir %{_libdir}/ocaml/libvirt
+%{_libdir}/ocaml/libvirt/META
+%{_libdir}/ocaml/libvirt/libvirt*.cmi
+%{_libdir}/ocaml/libvirt/libmllibvirt.a
+%{_libdir}/ocaml/libvirt/mllibvirt.cma
 %if %{with ocaml_opt}
-%{_libdir}/ocaml/site-lib/libvirt/libvirt*.cmx
-%{_libdir}/ocaml/site-lib/libvirt/mllibvirt.a
-%{_libdir}/ocaml/site-lib/libvirt/mllibvirt.cmxa
+%{_libdir}/ocaml/libvirt/libvirt*.cmx
+%{_libdir}/ocaml/libvirt/mllibvirt.a
+%{_libdir}/ocaml/libvirt/mllibvirt.cmxa
 %endif
 %{_examplesdir}/%{name}-%{version}
