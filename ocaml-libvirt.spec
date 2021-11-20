@@ -11,7 +11,7 @@ Summary:	libvirt binding for OCaml
 Summary(pl.UTF-8):	Wiązania libvirt dla OCamla
 Name:		ocaml-libvirt
 Version:	0.6.1.5
-Release:	3
+Release:	4
 License:	LGPL v2+
 Group:		Libraries
 Source0:	https://libvirt.org/sources/ocaml/%{name}-%{version}.tar.gz
