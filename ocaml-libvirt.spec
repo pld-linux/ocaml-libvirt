@@ -92,6 +92,8 @@ install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 cp -p examples/*.ml $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/dllmllibvirt.so.owner
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
